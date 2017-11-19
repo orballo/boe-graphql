@@ -5,17 +5,14 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
+    "deploy": "now --public && now alias",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/orballo/boe-graphql.git"
   },
-  "keywords": [
-    "graphql",
-    "api",
-    "boe"
-  ],
+  "keywords": ["graphql", "api", "boe"],
   "author": "Eduardo Campaña",
   "license": "MIT",
   "bugs": {
@@ -28,5 +25,9 @@
     "graphql": "^0.11.7",
     "node-fetch": "^1.7.3",
     "xml2js": "^0.4.19"
+  },
+  "now": {
+    "name": "boe",
+    "alias": "boe"
   }
 }

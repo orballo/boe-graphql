@@ -6,7 +6,7 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 
-const MetaType = new GraphQLObjectType({
+const Meta = new GraphQLObjectType({
   name: 'Meta',
   fields: () => ({
     pub: {
@@ -28,7 +28,7 @@ const MetaType = new GraphQLObjectType({
   }),
 });
 
-const PDFType = new GraphQLObjectType({
+const PDF = new GraphQLObjectType({
   name: 'PDF',
   fields: () => ({
     sizeBytes: {
@@ -50,7 +50,7 @@ const PDFType = new GraphQLObjectType({
   }),
 });
 
-const ItemType = new GraphQLObjectType({
+const Item = new GraphQLObjectType({
   name: 'Item',
   fields: () => ({
     id: {
@@ -62,13 +62,13 @@ const ItemType = new GraphQLObjectType({
       resolve: item => item.titulo[0],
     },
     pdf: {
-      type: PDFType,
+      type: PDF,
       resolve: item => item.urlPdf[0],
     },
   }),
 });
 
-const EpigrafeType = new GraphQLObjectType({
+const Epigrafe = new GraphQLObjectType({
   name: 'Epigrafe',
   fields: () => ({
     nombre: {
@@ -76,13 +76,13 @@ const EpigrafeType = new GraphQLObjectType({
       resolve: epigrafe => epigrafe.$.nombre,
     },
     items: {
-      type: new GraphQLList(ItemType),
+      type: new GraphQLList(Item),
       resolve: epigrafe => epigrafe.item,
     },
   }),
 });
 
-const DepartamentoType = new GraphQLObjectType({
+const Departamento = new GraphQLObjectType({
   name: 'Departamento',
   fields: () => ({
     nombre: {
@@ -90,17 +90,17 @@ const DepartamentoType = new GraphQLObjectType({
       resolve: departamento => departamento.$.nombre,
     },
     epigrafes: {
-      type: new GraphQLList(EpigrafeType),
+      type: new GraphQLList(Epigrafe),
       resolve: departamento => departamento.epigrafe,
     },
     items: {
-      type: new GraphQLList(ItemType),
+      type: new GraphQLList(Item),
       resolve: epigrafe => epigrafe.item,
     },
   }),
 });
 
-const SeccionType = new GraphQLObjectType({
+const Seccion = new GraphQLObjectType({
   name: 'Seccion',
   fields: () => ({
     num: {
@@ -112,13 +112,13 @@ const SeccionType = new GraphQLObjectType({
       resolve: seccion => seccion.$.nombre,
     },
     departamentos: {
-      type: new GraphQLList(DepartamentoType),
+      type: new GraphQLList(Departamento),
       resolve: seccion => seccion.departamento,
     },
   }),
 });
 
-const DiarioType = new GraphQLObjectType({
+const Diario = new GraphQLObjectType({
   name: 'Diario',
   fields: () => ({
     id: {
@@ -130,28 +130,28 @@ const DiarioType = new GraphQLObjectType({
       resolve: diario => diario.$.nbo,
     },
     pdf: {
-      type: PDFType,
+      type: PDF,
       resolve: diario => diario.sumario_nbo[0].urlPdf[0],
     },
     secciones: {
-      type: new GraphQLList(SeccionType),
+      type: new GraphQLList(Seccion),
       resolve: diario => diario.seccion,
     },
   }),
 });
 
-const SumarioType = new GraphQLObjectType({
+const Sumario = new GraphQLObjectType({
   name: 'Sumario',
   fields: () => ({
     meta: {
-      type: MetaType,
+      type: Meta,
       resolve: sumario => sumario.meta[0],
     },
     diarios: {
-      type: new GraphQLList(DiarioType),
+      type: new GraphQLList(Diario),
       resolve: sumario => sumario.diario,
     },
   }),
 });
 
-module.exports = { SumarioType };
+module.exports = { Sumario };

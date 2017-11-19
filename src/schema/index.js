@@ -1,12 +1,12 @@
 const { GraphQLSchema, GraphQLInt, GraphQLObjectType } = require('graphql');
-const { SumarioType } = require('./sumario');
+const { Sumario } = require('./sumario');
 const { getSumario } = require('../fetchs');
 
-const RootType = new GraphQLObjectType({
+const Root = new GraphQLObjectType({
   name: 'Root',
   fields: () => ({
     sumario: {
-      type: SumarioType,
+      type: Sumario,
       args: {
         date: { type: GraphQLInt },
       },
@@ -16,5 +16,5 @@ const RootType = new GraphQLObjectType({
 });
 
 module.exports = new GraphQLSchema({
-  query: RootType,
+  query: Root,
 });
