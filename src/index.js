@@ -1,6 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const { schema, rootValue } = require('./schema');
+const schema = require('./schema');
+const { getSumario } = require('./fetchs');
 
 const app = express();
 
@@ -8,10 +9,14 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    rootValue,
     graphiql: true,
   })
 );
+
+app.get('/api', async (req, res) => {
+  const data = await getSumario({ date: 20171118 });
+  res.json(data);
+});
 
 app.get('/', (req, res) => res.send('BOE GraphQL'));
 
