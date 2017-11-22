@@ -13,8 +13,8 @@ app.use(
   })
 );
 
-app.get('/api/:date', async (req, res) => {
-  const data = await getSumario({ date: req.params.date });
+app.get('/api/:id', async (req, res) => {
+  const data = await getSumario({ id: req.params.id });
   res.json(data);
 });
 

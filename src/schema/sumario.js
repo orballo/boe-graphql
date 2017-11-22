@@ -57,27 +57,17 @@ const Item = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: item => item.$.id,
     },
+    epigrafe: {
+      type: GraphQLString,
+      resolve: item => item.epigrafe,
+    },
     titulo: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: item => item.titulo[0],
     },
     pdf: {
-      type: PDF,
+      type: new GraphQLNonNull(PDF),
       resolve: item => item.urlPdf[0],
-    },
-  }),
-});
-
-const Epigrafe = new GraphQLObjectType({
-  name: 'Epigrafe',
-  fields: () => ({
-    nombre: {
-      type: new GraphQLNonNull(GraphQLString),
-      resolve: epigrafe => epigrafe.$.nombre,
-    },
-    items: {
-      type: new GraphQLList(Item),
-      resolve: epigrafe => epigrafe.item,
     },
   }),
 });
@@ -89,13 +79,19 @@ const Departamento = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: departamento => departamento.$.nombre,
     },
-    epigrafes: {
-      type: new GraphQLList(Epigrafe),
-      resolve: departamento => departamento.epigrafe,
-    },
     items: {
       type: new GraphQLList(Item),
-      resolve: epigrafe => epigrafe.item,
+      // If item does not exist maps item from each epigrafe.
+      resolve: departamento =>
+        departamento.item ||
+        departamento.epigrafe.reduce((result, epigrafe) => {
+          return result.concat(
+            epigrafe.item.map(item => {
+              item.epigrafe = epigrafe.$.nombre;
+              return item;
+            })
+          );
+        }, []),
     },
   }),
 });
@@ -144,11 +140,11 @@ const Sumario = new GraphQLObjectType({
   name: 'Sumario',
   fields: () => ({
     meta: {
-      type: Meta,
+      type: new GraphQLNonNull(Meta),
       resolve: sumario => sumario.meta[0],
     },
     diarios: {
-      type: new GraphQLList(Diario),
+      type: new GraphQLNonNull(new GraphQLList(Diario)),
       resolve: sumario => sumario.diario,
     },
   }),

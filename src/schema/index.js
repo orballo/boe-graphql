@@ -1,4 +1,4 @@
-const { GraphQLSchema, GraphQLInt, GraphQLObjectType } = require('graphql');
+const { GraphQLSchema, GraphQLString, GraphQLObjectType } = require('graphql');
 const { Sumario } = require('./sumario');
 const { getSumario } = require('../fetchs');
 
@@ -8,7 +8,7 @@ const Root = new GraphQLObjectType({
     sumario: {
       type: Sumario,
       args: {
-        date: { type: GraphQLInt },
+        id: { type: GraphQLString },
       },
       resolve: (_root, args) => getSumario(args),
     },
