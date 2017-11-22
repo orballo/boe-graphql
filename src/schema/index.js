@@ -10,7 +10,7 @@ const Root = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
       },
-      resolve: (_root, args) => getSumario(args),
+      resolve: async (_root, args) => await getSumario(args),
     },
   }),
 });
