@@ -1,7 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const schema = require('./schema');
-const { getDocument } = require('./fetchs');
+const { getDocumento } = require('./fetchs');
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(
 );
 
 app.get('/api/:id', async (req, res) => {
-  const data = await getDocument({ id: req.params.id });
+  const data = await getDocumento({ id: req.params.id });
   res.json(data);
 });
 
