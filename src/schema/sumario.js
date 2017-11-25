@@ -5,47 +5,48 @@ const {
   GraphQLObjectType,
   GraphQLNonNull,
 } = require('graphql');
+const getUrl = require('../utils/getUrl');
 
-const Meta = new GraphQLObjectType({
-  name: 'Meta',
+const MetaSumario = new GraphQLObjectType({
+  name: 'MetaSumario',
   fields: () => ({
-    pub: {
+    publicacion: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: meta => meta.pub[0],
     },
-    date: {
+    fecha: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: meta => meta.fecha[0],
     },
-    previousDate: {
+    fechaAnterior: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: meta => meta.fechaAnt[0],
     },
-    nextDate: {
+    fechaSiguiente: {
       type: GraphQLString,
-      resolve: meta => meta.fechaSig[0],
+      resolve: meta => meta.fechaSig[0] || null,
     },
   }),
 });
 
-const PDF = new GraphQLObjectType({
-  name: 'PDF',
+const PDFSumario = new GraphQLObjectType({
+  name: 'PDFSumario',
   fields: () => ({
     sizeBytes: {
       type: GraphQLInt,
-      resolve: pdf => pdf.$.szBytes,
+      resolve: pdf => pdf.$.szBytes || null,
     },
     sizeKBytes: {
       type: GraphQLInt,
-      resolve: pdf => pdf.$.szKBytes,
+      resolve: pdf => pdf.$.szKBytes || null,
     },
     pages: {
       type: GraphQLInt,
-      resolve: pdf => pdf.$.numPag,
+      resolve: pdf => pdf.$.numPag || null,
     },
     url: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: pdf => `https://boe.es${pdf._}`,
+      resolve: pdf => getUrl(pdf._) || null,
     },
   }),
 });
@@ -59,14 +60,14 @@ const Item = new GraphQLObjectType({
     },
     epigrafe: {
       type: GraphQLString,
-      resolve: item => item.epigrafe,
+      resolve: item => item.epigrafe || null,
     },
     titulo: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: item => item.titulo[0],
     },
     pdf: {
-      type: new GraphQLNonNull(PDF),
+      type: new GraphQLNonNull(PDFSumario),
       resolve: item => item.urlPdf[0],
     },
   }),
@@ -108,7 +109,7 @@ const Seccion = new GraphQLObjectType({
       resolve: seccion => seccion.$.nombre,
     },
     departamentos: {
-      type: new GraphQLList(Departamento),
+      type: new GraphQLNonNull(new GraphQLList(Departamento)),
       resolve: seccion => seccion.departamento,
     },
   }),
@@ -126,11 +127,11 @@ const Diario = new GraphQLObjectType({
       resolve: diario => diario.$.nbo,
     },
     pdf: {
-      type: PDF,
+      type: new GraphQLNonNull(PDFSumario),
       resolve: diario => diario.sumario_nbo[0].urlPdf[0],
     },
     secciones: {
-      type: new GraphQLList(Seccion),
+      type: new GraphQLNonNull(new GraphQLList(Seccion)),
       resolve: diario => diario.seccion,
     },
   }),
@@ -140,7 +141,7 @@ const Sumario = new GraphQLObjectType({
   name: 'Sumario',
   fields: () => ({
     meta: {
-      type: new GraphQLNonNull(Meta),
+      type: new GraphQLNonNull(MetaSumario),
       resolve: sumario => sumario.meta[0],
     },
     diarios: {
@@ -150,4 +151,4 @@ const Sumario = new GraphQLObjectType({
   }),
 });
 
-module.exports = { Sumario };
+module.exports = Sumario;

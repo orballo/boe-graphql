@@ -1,6 +1,7 @@
 const { GraphQLSchema, GraphQLString, GraphQLObjectType } = require('graphql');
-const { Sumario } = require('./sumario');
-const { getSumario } = require('../fetchs');
+const { getSumario, getDisposicion } = require('../fetchs');
+const Sumario = require('./sumario');
+const Disposicion = require('./disposicion');
 
 const Root = new GraphQLObjectType({
   name: 'Root',
@@ -11,6 +12,13 @@ const Root = new GraphQLObjectType({
         id: { type: GraphQLString },
       },
       resolve: async (_root, args) => await getSumario(args),
+    },
+    disposicion: {
+      type: Disposicion,
+      args: {
+        id: { type: GraphQLString },
+      },
+      resolve: async (_root, args) => await getDisposicion(args),
     },
   }),
 });

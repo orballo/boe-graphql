@@ -1,0 +1,49 @@
+{
+  disposicion(id: "BOE-A-2017-13543") {
+    meta {
+      publicacion {
+        codigo
+        diario
+        seccion
+        subseccion
+        departamento {
+          nombre
+          codigo
+        }
+        rango {
+          nombre
+          codigo
+        }
+      }
+      fecha {
+        disposicion
+        publicacion
+        vigencia
+        derogacion
+        actualizacion
+      }
+      estatusLegislativo
+      origenLegislativo {
+        nombre
+        codigo
+      }
+      estadoConsolidacion {
+        nombre
+        codigo
+      }
+      judicialmenteAnulada
+      vigenciaAgotada
+      estatusDerogacion
+    }
+    id
+    titulo
+    epub
+    pdf {
+      espanol
+      catalan
+      gallego
+      euskera
+      valenciano
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  sumario(id: "BOE-S-2017-113") {
+    meta {
+      publicacion
+      fecha
+      fechaAnterior
+      fechaSiguiente
+    }
+    diarios {
+      id
+      num
+      pdf {
+        sizeBytes
+        sizeKBytes
+        pages
+        url
+      }
+      secciones {
+        num
+        nombre
+        departamentos {
+          nombre
+          items {
+            id
+            epigrafe
+            titulo
+            pdf {
+              sizeBytes
+              sizeKBytes
+              pages
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
