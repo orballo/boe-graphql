@@ -183,6 +183,218 @@ const PDFDisposicion = new GraphQLObjectType({
   },
 });
 
+const Nota = new GraphQLObjectType({
+  name: 'Nota',
+  fields: {
+    texto: {
+      type: GraphQLString,
+      resolve: nota => nota.texto || null,
+    },
+    codigo: {
+      type: GraphQLString,
+      resolve: nota => nota.codigo || null,
+    },
+    orden: {
+      type: GraphQLString,
+      resolve: nota => nota.orden || null,
+    },
+  },
+});
+
+const Materia = new GraphQLObjectType({
+  name: 'Materia',
+  fields: {
+    nombre: {
+      type: GraphQLString,
+      resolve: materia => materia.nombre || null,
+    },
+    codigo: {
+      type: GraphQLString,
+      resolve: materia => materia.codigo || null,
+    },
+    orden: {
+      type: GraphQLString,
+      resolve: materia => materia.orden || null,
+    },
+  },
+});
+
+const Alerta = new GraphQLObjectType({
+  name: 'Alerta',
+  fields: {
+    nombre: {
+      type: GraphQLString,
+      resolve: alerta => alerta.nombre || null,
+    },
+    codigo: {
+      type: GraphQLString,
+      resolve: alerta => alerta.codigo || null,
+    },
+    orden: {
+      type: GraphQLString,
+      resolve: alerta => alerta.orden || null,
+    },
+  },
+});
+
+const ReferenciaAnterior = new GraphQLObjectType({
+  name: 'ReferenciaAnterior',
+  fields: {
+    referencia: {
+      type: GraphQLString,
+      resolve: referencia => referencia.referencia || null,
+    },
+    orden: {
+      type: GraphQLString,
+      resolve: referencia => referencia.orden || null,
+    },
+    tipo: {
+      type: GraphQLString,
+      resolve: referencia => referencia.tipo || null,
+    },
+    codigo: {
+      type: GraphQLString,
+      resolve: referencia => referencia.codigo || null,
+    },
+    texto: {
+      type: GraphQLString,
+      resolve: referencia => referencia.texto || null,
+    },
+  },
+});
+
+const ReferenciaPosterior = new GraphQLObjectType({
+  name: 'ReferenciaPosterior',
+  fields: {
+    referencia: {
+      type: GraphQLString,
+      resolve: referencia => referencia.referencia || null,
+    },
+    orden: {
+      type: GraphQLString,
+      resolve: referencia => referencia.orden || null,
+    },
+    tipo: {
+      type: GraphQLString,
+      resolve: referencia => referencia.tipo || null,
+    },
+    codigo: {
+      type: GraphQLString,
+      resolve: referencia => referencia.codigo || null,
+    },
+    texto: {
+      type: GraphQLString,
+      resolve: referencia => referencia.texto || null,
+    },
+  },
+});
+
+const Referencias = new GraphQLObjectType({
+  name: 'Referencias',
+  fields: {
+    anteriores: {
+      type: new GraphQLList(ReferenciaAnterior),
+      resolve: referencias => referencias.anteriores,
+    },
+    posteriores: {
+      type: new GraphQLList(ReferenciaPosterior),
+      resolve: referencias => referencias.posteriores,
+    },
+  },
+});
+
+const Analisis = new GraphQLObjectType({
+  name: 'Analisis',
+  fields: {
+    notas: {
+      type: new GraphQLList(Nota),
+      resolve: analisis =>
+        analisis.notas.reduce(
+          (result, current) =>
+            result.concat(
+              current.nota.map(nota => ({
+                texto: nota._,
+                codigo: nota.$.codigo,
+                orden: nota.$.orden,
+              }))
+            ),
+          []
+        ),
+    },
+    materias: {
+      type: new GraphQLList(Materia),
+      resolve: analisis =>
+        analisis.materias.reduce(
+          (result, current) =>
+            result.concat(
+              current.materia.map(materia => ({
+                nombre: materia._,
+                codigo: materia.$.codigo,
+                orden: materia.$.orden,
+              }))
+            ),
+          []
+        ),
+    },
+    alertas: {
+      type: new GraphQLList(Alerta),
+      resolve: analisis =>
+        analisis.alertas.reduce(
+          (result, current) =>
+            result.concat(
+              current.alerta.map(alerta => ({
+                nombre: alerta._,
+                codigo: alerta.$.codigo,
+                orden: alerta.$.orden,
+              }))
+            ),
+          []
+        ),
+    },
+    referencias: {
+      type: Referencias,
+      resolve: analisis =>
+        analisis.referencias.reduce(
+          (result, current) => ({
+            anteriores: result.anteriores.concat(
+              current.anteriores.reduce(
+                (result, current) =>
+                  current.anterior &&
+                  result.concat(
+                    current.anterior.map(anterior => ({
+                      referencia: anterior.$.referencia,
+                      orden: anterior.$.orden,
+                      tipo: anterior.palabra[0]._,
+                      codigo: anterior.palabra[0].$.codigo,
+                      texto: anterior.texto[0],
+                    }))
+                  ),
+                []
+              )
+            ),
+            posteriores: result.posteriores.concat(
+              current.posteriores.reduce(
+                (result, current) =>
+                  current.posterior &&
+                  result.concat(
+                    current.posterior.map(posterior => ({
+                      referencia: posterior.$.referencia,
+                      orden: posterior.$.orden,
+                      tipo: posterior.palabra[0]._,
+                      codigo: posterior.palabra[0].$.codigo,
+                      texto: posterior.texto[0],
+                    }))
+                  ),
+                []
+              )
+            ),
+          }),
+          { anteriores: [], posteriores: [] }
+        ),
+    },
+  },
+});
+
 const Disposicion = new GraphQLObjectType({
   name: 'Disposicion',
   fields: {
@@ -224,10 +436,6 @@ const Disposicion = new GraphQLObjectType({
         estatusDerogacion: documento.metadatos[0].estatus_derogacion[0],
       }),
     },
-    // analisis: {
-    //   type: new GraphQLNonNull(Analisis),
-    //   resolve: documento => documento.analisis,
-    // },
     id: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: documento => documento.metadatos[0].identificador[0],
@@ -249,6 +457,10 @@ const Disposicion = new GraphQLObjectType({
         euskera: getUrl(documento.metadatos[0].url_pdf_euskera[0]),
         valenciano: getUrl(documento.metadatos[0].url_pdf_valenciano[0]),
       }),
+    },
+    analisis: {
+      type: new GraphQLNonNull(Analisis),
+      resolve: documento => documento.analisis[0],
     },
   },
 });

@@ -45,5 +45,38 @@
       euskera
       valenciano
     }
+    analisis {
+      notas {
+        texto
+        codigo
+        orden
+      }
+      materias {
+        nombre
+        codigo
+        orden
+      }
+      alertas {
+        nombre
+        codigo
+        orden
+      }
+      referencias {
+        anteriores {
+          referencia
+          orden
+          tipo
+          codigo
+          texto
+        }
+        posteriores {
+          referencia
+          orden
+          tipo
+          codigo
+          texto
+        }
+      }
+    }
   }
 }
