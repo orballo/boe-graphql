@@ -78,5 +78,8 @@
         }
       }
     }
+    contenido {
+      texto
+    }
   }
 }

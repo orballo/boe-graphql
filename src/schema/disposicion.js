@@ -403,6 +403,34 @@ const Analisis = new GraphQLObjectType({
   },
 });
 
+const Articulo = new GraphQLObjectType({
+  name: 'Articulo',
+  fields: {
+    numero: {
+      type: GraphQLString,
+      resolve: articulo => articulo.numero && articulo.numero[0],
+    },
+    texto: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: articulo => articulo.texto,
+    },
+  },
+});
+
+const Contenido = new GraphQLObjectType({
+  name: 'Contenido',
+  fields: {
+    texto: {
+      type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
+      resolve: contenido => contenido.texto,
+    },
+    articulos: {
+      type: new GraphQLList(Articulo),
+      resolve: contenido => contenido.articulos,
+    },
+  },
+});
+
 const Disposicion = new GraphQLObjectType({
   name: 'Disposicion',
   fields: {
@@ -469,6 +497,18 @@ const Disposicion = new GraphQLObjectType({
     analisis: {
       type: new GraphQLNonNull(Analisis),
       resolve: documento => documento.analisis[0],
+    },
+    contenido: {
+      type: new GraphQLNonNull(Contenido),
+      resolve: documento => ({
+        texto: documento.texto[0].p.map(p => p._),
+        articulos: documento.texto[0].p
+          .filter(p => p.$.class === 'articulo')
+          .map(p => ({
+            numero: p._.match(/\d+/),
+            texto: p._,
+          })),
+      }),
     },
   },
 });
