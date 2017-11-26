@@ -294,11 +294,17 @@ const Referencias = new GraphQLObjectType({
   fields: {
     anteriores: {
       type: new GraphQLList(ReferenciaAnterior),
-      resolve: referencias => referencias.anteriores,
+      resolve: referencias =>
+        referencias.anteriores.some(referencia => referencia)
+          ? referencias.anteriores
+          : null,
     },
     posteriores: {
       type: new GraphQLList(ReferenciaPosterior),
-      resolve: referencias => referencias.posteriores,
+      resolve: referencias =>
+        referencias.posteriores.some(referencia => referencia)
+          ? referencias.posteriores
+          : null,
     },
   },
 });
@@ -339,17 +345,19 @@ const Analisis = new GraphQLObjectType({
     alertas: {
       type: new GraphQLList(Alerta),
       resolve: analisis =>
-        analisis.alertas.reduce(
-          (result, current) =>
-            result.concat(
-              current.alerta.map(alerta => ({
-                nombre: alerta._,
-                codigo: alerta.$.codigo,
-                orden: alerta.$.orden,
-              }))
-            ),
-          []
-        ),
+        analisis.alertas.some(alerta => alerta)
+          ? analisis.alertas.reduce(
+              (result, current) =>
+                result.concat(
+                  current.alerta.map(alerta => ({
+                    nombre: alerta._,
+                    codigo: alerta.$.codigo,
+                    orden: alerta.$.orden,
+                  }))
+                ),
+              []
+            )
+          : null,
     },
     referencias: {
       type: Referencias,
