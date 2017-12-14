@@ -1,10 +1,10 @@
-const { GraphQLSchema, GraphQLString, GraphQLObjectType } = require('graphql');
-const { getSumario, getDisposicion } = require('../fetchs');
-const Sumario = require('./sumario');
-const Disposicion = require('./disposicion');
+const { GraphQLSchema, GraphQLString, GraphQLObjectType } = require("graphql");
+const { getSumario, getDisposicion } = require("../fetchs");
+const Sumario = require("./sumario");
+const Disposicion = require("./disposicion");
 
 const Root = new GraphQLObjectType({
-  name: 'Root',
+  name: "Root",
   fields: () => ({
     sumario: {
       type: Sumario,

@@ -4,11 +4,11 @@ const {
   GraphQLList,
   GraphQLObjectType,
   GraphQLNonNull,
-} = require('graphql');
-const getUrl = require('../utils/getUrl');
+} = require("graphql");
+const getUrl = require("../utils/getUrl");
 
 const MetaSumario = new GraphQLObjectType({
-  name: 'MetaSumario',
+  name: "MetaSumario",
   fields: () => ({
     publicacion: {
       type: new GraphQLNonNull(GraphQLString),
@@ -30,7 +30,7 @@ const MetaSumario = new GraphQLObjectType({
 });
 
 const PDFSumario = new GraphQLObjectType({
-  name: 'PDFSumario',
+  name: "PDFSumario",
   fields: () => ({
     sizeBytes: {
       type: GraphQLInt,
@@ -52,7 +52,7 @@ const PDFSumario = new GraphQLObjectType({
 });
 
 const Item = new GraphQLObjectType({
-  name: 'Item',
+  name: "Item",
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLString),
@@ -74,7 +74,7 @@ const Item = new GraphQLObjectType({
 });
 
 const Departamento = new GraphQLObjectType({
-  name: 'Departamento',
+  name: "Departamento",
   fields: () => ({
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -98,7 +98,7 @@ const Departamento = new GraphQLObjectType({
 });
 
 const Seccion = new GraphQLObjectType({
-  name: 'Seccion',
+  name: "Seccion",
   fields: () => ({
     num: {
       type: new GraphQLNonNull(GraphQLString),
@@ -116,7 +116,7 @@ const Seccion = new GraphQLObjectType({
 });
 
 const Diario = new GraphQLObjectType({
-  name: 'Diario',
+  name: "Diario",
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLString),
@@ -138,7 +138,7 @@ const Diario = new GraphQLObjectType({
 });
 
 const Sumario = new GraphQLObjectType({
-  name: 'Sumario',
+  name: "Sumario",
   fields: () => ({
     meta: {
       type: new GraphQLNonNull(MetaSumario),

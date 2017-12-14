@@ -4,11 +4,11 @@ const {
   GraphQLList,
   GraphQLObjectType,
   GraphQLNonNull,
-} = require('graphql');
-const getUrl = require('../utils/getUrl');
+} = require("graphql");
+const getUrl = require("../utils/getUrl");
 
 const Rango = new GraphQLObjectType({
-  name: 'Rango',
+  name: "Rango",
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -22,7 +22,7 @@ const Rango = new GraphQLObjectType({
 });
 
 const DepartamentoDisposicion = new GraphQLObjectType({
-  name: 'DepartamentoDisposicion',
+  name: "DepartamentoDisposicion",
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -36,7 +36,7 @@ const DepartamentoDisposicion = new GraphQLObjectType({
 });
 
 const Publicacion = new GraphQLObjectType({
-  name: 'Publicacion',
+  name: "Publicacion",
   fields: {
     codigo: {
       type: new GraphQLNonNull(GraphQLString),
@@ -66,7 +66,7 @@ const Publicacion = new GraphQLObjectType({
 });
 
 const Fecha = new GraphQLObjectType({
-  name: 'Fecha',
+  name: "Fecha",
   fields: {
     disposicion: {
       type: new GraphQLNonNull(GraphQLString),
@@ -92,7 +92,7 @@ const Fecha = new GraphQLObjectType({
 });
 
 const OrigenLegislativo = new GraphQLObjectType({
-  name: 'OrigenLegislativo',
+  name: "OrigenLegislativo",
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -106,7 +106,7 @@ const OrigenLegislativo = new GraphQLObjectType({
 });
 
 const EstadoConsolidacion = new GraphQLObjectType({
-  name: 'EstadoConsolidacion',
+  name: "EstadoConsolidacion",
   fields: {
     nombre: {
       type: GraphQLString,
@@ -120,7 +120,7 @@ const EstadoConsolidacion = new GraphQLObjectType({
 });
 
 const MetaDisposicion = new GraphQLObjectType({
-  name: 'MetaDisposicion',
+  name: "MetaDisposicion",
   fields: {
     publicacion: {
       type: new GraphQLNonNull(Publicacion),
@@ -158,7 +158,7 @@ const MetaDisposicion = new GraphQLObjectType({
 });
 
 const PDFDisposicion = new GraphQLObjectType({
-  name: 'PDFDisposicion',
+  name: "PDFDisposicion",
   fields: {
     espanol: {
       type: new GraphQLNonNull(GraphQLString),
@@ -184,7 +184,7 @@ const PDFDisposicion = new GraphQLObjectType({
 });
 
 const Nota = new GraphQLObjectType({
-  name: 'Nota',
+  name: "Nota",
   fields: {
     texto: {
       type: GraphQLString,
@@ -202,7 +202,7 @@ const Nota = new GraphQLObjectType({
 });
 
 const Materia = new GraphQLObjectType({
-  name: 'Materia',
+  name: "Materia",
   fields: {
     nombre: {
       type: GraphQLString,
@@ -220,7 +220,7 @@ const Materia = new GraphQLObjectType({
 });
 
 const Alerta = new GraphQLObjectType({
-  name: 'Alerta',
+  name: "Alerta",
   fields: {
     nombre: {
       type: GraphQLString,
@@ -238,7 +238,7 @@ const Alerta = new GraphQLObjectType({
 });
 
 const ReferenciaAnterior = new GraphQLObjectType({
-  name: 'ReferenciaAnterior',
+  name: "ReferenciaAnterior",
   fields: {
     referencia: {
       type: GraphQLString,
@@ -264,7 +264,7 @@ const ReferenciaAnterior = new GraphQLObjectType({
 });
 
 const ReferenciaPosterior = new GraphQLObjectType({
-  name: 'ReferenciaPosterior',
+  name: "ReferenciaPosterior",
   fields: {
     referencia: {
       type: GraphQLString,
@@ -290,7 +290,7 @@ const ReferenciaPosterior = new GraphQLObjectType({
 });
 
 const Referencias = new GraphQLObjectType({
-  name: 'Referencias',
+  name: "Referencias",
   fields: {
     anteriores: {
       type: new GraphQLList(ReferenciaAnterior),
@@ -310,7 +310,7 @@ const Referencias = new GraphQLObjectType({
 });
 
 const Analisis = new GraphQLObjectType({
-  name: 'Analisis',
+  name: "Analisis",
   fields: {
     notas: {
       type: new GraphQLList(Nota),
@@ -432,7 +432,7 @@ const Contenido = new GraphQLObjectType({
 });
 
 const Disposicion = new GraphQLObjectType({
-  name: 'Disposicion',
+  name: "Disposicion",
   fields: {
     meta: {
       type: new GraphQLNonNull(MetaDisposicion),

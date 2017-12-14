@@ -12,7 +12,11 @@
     "type": "git",
     "url": "git+https://github.com/orballo/boe-graphql.git"
   },
-  "keywords": ["graphql", "api", "boe"],
+  "keywords": [
+    "graphql",
+    "api",
+    "boe"
+  ],
   "author": "Eduardo Campaña",
   "license": "MIT",
   "bugs": {
@@ -29,5 +33,10 @@
   "now": {
     "name": "boe",
     "alias": "boe"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.3",
+    "eslint": "^4.13.1",
+    "eslint-config-prettier": "^2.9.0"
   }
 }
