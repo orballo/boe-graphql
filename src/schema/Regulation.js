@@ -313,9 +313,9 @@ const Analisis = new GraphQLObjectType({
                 texto: nota._,
                 codigo: nota.$.codigo,
                 orden: nota.$.orden,
-              })),
+              }))
             ),
-          [],
+          []
         ),
     },
     materias: {
@@ -329,9 +329,9 @@ const Analisis = new GraphQLObjectType({
                 nombre: materia._,
                 codigo: materia.$.codigo,
                 orden: materia.$.orden,
-              })),
+              }))
             ),
-          [],
+          []
         ),
     },
     alertas: {
@@ -345,9 +345,9 @@ const Analisis = new GraphQLObjectType({
                 nombre: alerta._,
                 codigo: alerta.$.codigo,
                 orden: alerta.$.orden,
-              })),
+              }))
             ),
-          [],
+          []
         ),
     },
     referencias: {
@@ -366,10 +366,10 @@ const Analisis = new GraphQLObjectType({
                       tipo: anterior.palabra[0]._,
                       codigo: anterior.palabra[0].$.codigo,
                       texto: anterior.texto[0],
-                    })),
+                    }))
                   ),
-                [],
-              ),
+                []
+              )
             ),
             posteriores: result.posteriores.concat(
               current.posteriores.reduce(
@@ -382,13 +382,13 @@ const Analisis = new GraphQLObjectType({
                       tipo: posterior.palabra[0]._,
                       codigo: posterior.palabra[0].$.codigo,
                       texto: posterior.texto[0],
-                    })),
+                    }))
                   ),
-                [],
-              ),
+                []
+              )
             ),
           }),
-          { anteriores: [], posteriores: [] },
+          { anteriores: [], posteriores: [] }
         ),
     },
   },
@@ -404,6 +404,20 @@ const Articulo = new GraphQLObjectType({
     texto: {
       type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
       resolve: articulo => articulo.texto,
+    },
+  },
+});
+
+const Capitulo = new GraphQLObjectType({
+  name: 'Capitulo',
+  fields: {
+    id: {
+      type: GraphQLString,
+      resolve: capitulo => capitulo.id,
+    },
+    texto: {
+      type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
+      resolve: capitulo => capitulo.texto,
     },
   },
 });
@@ -492,6 +506,8 @@ const Regulation = new GraphQLObjectType({
     contenido: {
       type: new GraphQLNonNull(Contenido),
       resolve: documento => {
+        // The whole text should be mapped here and classified into the different
+        // types of entities (chapters, articles...)
         return {
           texto: documento.texto[0].p.map(p => p._),
           articulos: documento.texto[0].p.reduce((result, current) => {
@@ -509,10 +525,6 @@ const Regulation = new GraphQLObjectType({
 
             return result;
           }, []),
-          // articulos: documento.texto[0].p.filter(p => p.$.class === 'articulo').map(p => ({
-          //   numero: p._.match(/\d+/),
-          //   texto: p._,
-          // })),
         };
       },
     },
