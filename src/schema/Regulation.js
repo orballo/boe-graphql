@@ -1,14 +1,8 @@
-const {
-  GraphQLString,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLObjectType,
-  GraphQLNonNull,
-} = require("graphql");
-const getUrl = require("../utils/getUrl");
+const { GraphQLString, GraphQLList, GraphQLObjectType, GraphQLNonNull } = require('graphql');
+const getUrl = require('../utils/getUrl');
 
 const Rango = new GraphQLObjectType({
-  name: "Rango",
+  name: 'Rango',
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -22,7 +16,7 @@ const Rango = new GraphQLObjectType({
 });
 
 const DepartamentoRegulation = new GraphQLObjectType({
-  name: "DepartamentoRegulation",
+  name: 'DepartamentoRegulation',
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -36,7 +30,7 @@ const DepartamentoRegulation = new GraphQLObjectType({
 });
 
 const Publicacion = new GraphQLObjectType({
-  name: "Publicacion",
+  name: 'Publicacion',
   fields: {
     codigo: {
       type: new GraphQLNonNull(GraphQLString),
@@ -66,7 +60,7 @@ const Publicacion = new GraphQLObjectType({
 });
 
 const Fecha = new GraphQLObjectType({
-  name: "Fecha",
+  name: 'Fecha',
   fields: {
     disposicion: {
       type: new GraphQLNonNull(GraphQLString),
@@ -92,7 +86,7 @@ const Fecha = new GraphQLObjectType({
 });
 
 const OrigenLegislativo = new GraphQLObjectType({
-  name: "OrigenLegislativo",
+  name: 'OrigenLegislativo',
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -106,7 +100,7 @@ const OrigenLegislativo = new GraphQLObjectType({
 });
 
 const EstadoConsolidacion = new GraphQLObjectType({
-  name: "EstadoConsolidacion",
+  name: 'EstadoConsolidacion',
   fields: {
     nombre: {
       type: GraphQLString,
@@ -120,7 +114,7 @@ const EstadoConsolidacion = new GraphQLObjectType({
 });
 
 const MetaRegulation = new GraphQLObjectType({
-  name: "MetaRegulation",
+  name: 'MetaRegulation',
   fields: {
     publicacion: {
       type: new GraphQLNonNull(Publicacion),
@@ -158,9 +152,9 @@ const MetaRegulation = new GraphQLObjectType({
 });
 
 const PDFRegulation = new GraphQLObjectType({
-  name: "PDFRegulation",
+  name: 'PDFRegulation',
   fields: {
-    espanol: {
+    spanish: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: pdf => pdf.espanol,
     },
@@ -168,7 +162,7 @@ const PDFRegulation = new GraphQLObjectType({
       type: GraphQLString,
       resolve: pdf => pdf.catalan || null,
     },
-    gallego: {
+    galician: {
       type: GraphQLString,
       resolve: pdf => pdf.gallego || null,
     },
@@ -176,7 +170,7 @@ const PDFRegulation = new GraphQLObjectType({
       type: GraphQLString,
       resolve: pdf => pdf.euskera || null,
     },
-    valenciano: {
+    valencian: {
       type: GraphQLString,
       resolve: pdf => pdf.valenciano || null,
     },
@@ -184,7 +178,7 @@ const PDFRegulation = new GraphQLObjectType({
 });
 
 const Nota = new GraphQLObjectType({
-  name: "Nota",
+  name: 'Nota',
   fields: {
     texto: {
       type: GraphQLString,
@@ -202,7 +196,7 @@ const Nota = new GraphQLObjectType({
 });
 
 const Materia = new GraphQLObjectType({
-  name: "Materia",
+  name: 'Materia',
   fields: {
     nombre: {
       type: GraphQLString,
@@ -220,7 +214,7 @@ const Materia = new GraphQLObjectType({
 });
 
 const Alerta = new GraphQLObjectType({
-  name: "Alerta",
+  name: 'Alerta',
   fields: {
     nombre: {
       type: GraphQLString,
@@ -238,7 +232,7 @@ const Alerta = new GraphQLObjectType({
 });
 
 const ReferenciaAnterior = new GraphQLObjectType({
-  name: "ReferenciaAnterior",
+  name: 'ReferenciaAnterior',
   fields: {
     referencia: {
       type: GraphQLString,
@@ -264,7 +258,7 @@ const ReferenciaAnterior = new GraphQLObjectType({
 });
 
 const ReferenciaPosterior = new GraphQLObjectType({
-  name: "ReferenciaPosterior",
+  name: 'ReferenciaPosterior',
   fields: {
     referencia: {
       type: GraphQLString,
@@ -290,41 +284,38 @@ const ReferenciaPosterior = new GraphQLObjectType({
 });
 
 const Referencias = new GraphQLObjectType({
-  name: "Referencias",
+  name: 'Referencias',
   fields: {
     anteriores: {
       type: new GraphQLList(ReferenciaAnterior),
       resolve: referencias =>
-        referencias.anteriores.some(referencia => referencia)
-          ? referencias.anteriores
-          : null,
+        referencias.anteriores.some(referencia => referencia) ? referencias.anteriores : null,
     },
     posteriores: {
       type: new GraphQLList(ReferenciaPosterior),
       resolve: referencias =>
-        referencias.posteriores.some(referencia => referencia)
-          ? referencias.posteriores
-          : null,
+        referencias.posteriores.some(referencia => referencia) ? referencias.posteriores : null,
     },
   },
 });
 
 const Analisis = new GraphQLObjectType({
-  name: "Analisis",
+  name: 'Analisis',
   fields: {
     notas: {
       type: new GraphQLList(Nota),
       resolve: analisis =>
         analisis.notas.reduce(
           (result, current) =>
+            current.nota &&
             result.concat(
               current.nota.map(nota => ({
                 texto: nota._,
                 codigo: nota.$.codigo,
                 orden: nota.$.orden,
-              }))
+              })),
             ),
-          []
+          [],
         ),
     },
     materias: {
@@ -332,32 +323,32 @@ const Analisis = new GraphQLObjectType({
       resolve: analisis =>
         analisis.materias.reduce(
           (result, current) =>
+            current.materia &&
             result.concat(
               current.materia.map(materia => ({
                 nombre: materia._,
                 codigo: materia.$.codigo,
                 orden: materia.$.orden,
-              }))
+              })),
             ),
-          []
+          [],
         ),
     },
     alertas: {
       type: new GraphQLList(Alerta),
       resolve: analisis =>
-        analisis.alertas.some(alerta => alerta)
-          ? analisis.alertas.reduce(
-              (result, current) =>
-                result.concat(
-                  current.alerta.map(alerta => ({
-                    nombre: alerta._,
-                    codigo: alerta.$.codigo,
-                    orden: alerta.$.orden,
-                  }))
-                ),
-              []
-            )
-          : null,
+        analisis.alertas.reduce(
+          (result, current) =>
+            current.alerta &&
+            result.concat(
+              current.alerta.map(alerta => ({
+                nombre: alerta._,
+                codigo: alerta.$.codigo,
+                orden: alerta.$.orden,
+              })),
+            ),
+          [],
+        ),
     },
     referencias: {
       type: Referencias,
@@ -375,10 +366,10 @@ const Analisis = new GraphQLObjectType({
                       tipo: anterior.palabra[0]._,
                       codigo: anterior.palabra[0].$.codigo,
                       texto: anterior.texto[0],
-                    }))
+                    })),
                   ),
-                []
-              )
+                [],
+              ),
             ),
             posteriores: result.posteriores.concat(
               current.posteriores.reduce(
@@ -391,13 +382,13 @@ const Analisis = new GraphQLObjectType({
                       tipo: posterior.palabra[0]._,
                       codigo: posterior.palabra[0].$.codigo,
                       texto: posterior.texto[0],
-                    }))
+                    })),
                   ),
-                []
-              )
+                [],
+              ),
             ),
           }),
-          { anteriores: [], posteriores: [] }
+          { anteriores: [], posteriores: [] },
         ),
     },
   },
@@ -406,12 +397,12 @@ const Analisis = new GraphQLObjectType({
 const Articulo = new GraphQLObjectType({
   name: 'Articulo',
   fields: {
-    numero: {
+    id: {
       type: GraphQLString,
-      resolve: articulo => articulo.numero && articulo.numero[0],
+      resolve: articulo => articulo.id,
     },
     texto: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
       resolve: articulo => articulo.texto,
     },
   },
@@ -432,7 +423,7 @@ const Contenido = new GraphQLObjectType({
 });
 
 const Regulation = new GraphQLObjectType({
-  name: "Regulation",
+  name: 'Regulation',
   fields: {
     meta: {
       type: new GraphQLNonNull(MetaRegulation),
@@ -500,15 +491,30 @@ const Regulation = new GraphQLObjectType({
     },
     contenido: {
       type: new GraphQLNonNull(Contenido),
-      resolve: documento => ({
-        texto: documento.texto[0].p.map(p => p._),
-        articulos: documento.texto[0].p
-          .filter(p => p.$.class === 'articulo')
-          .map(p => ({
-            numero: p._.match(/\d+/),
-            texto: p._,
-          })),
-      }),
+      resolve: documento => {
+        return {
+          texto: documento.texto[0].p.map(p => p._),
+          articulos: documento.texto[0].p.reduce((result, current) => {
+            const numero = current._.match(/\d+/);
+            const texto = current._;
+
+            if (current.$.class === 'articulo') {
+              result.push({
+                id: numero ? numero[0] : texto,
+                texto: [],
+              });
+            } else if (result.length > 0) {
+              result[result.length - 1].texto.push(texto);
+            }
+
+            return result;
+          }, []),
+          // articulos: documento.texto[0].p.filter(p => p.$.class === 'articulo').map(p => ({
+          //   numero: p._.match(/\d+/),
+          //   texto: p._,
+          // })),
+        };
+      },
     },
   },
 });

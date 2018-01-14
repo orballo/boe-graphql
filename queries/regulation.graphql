@@ -1,5 +1,5 @@
 {
-  regulation(id: "BOE-A-2017-13543") {
+  regulation(id: "BOE-A-1978-31229") {
     meta {
       publicacion {
         codigo
@@ -39,11 +39,11 @@
     titulo
     epub
     pdf {
-      espanol
+      spanish
       catalan
-      gallego
+      galician
       euskera
-      valenciano
+      valencian
     }
     analisis {
       notas {
@@ -80,6 +80,10 @@
     }
     contenido {
       texto
+      articulos {
+        id
+        texto
+      }
     }
   }
 }
