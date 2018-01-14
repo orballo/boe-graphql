@@ -46,7 +46,7 @@ const PDFSummary = new GraphQLObjectType({
     },
     url: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: pdf => getUrl(pdf._) || null,
+      resolve: pdf => getUrl(pdf._),
     },
   },
 });

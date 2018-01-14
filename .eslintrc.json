@@ -7,9 +7,6 @@
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "sourceType": "module"
   },
   "extends": ["prettier"],
