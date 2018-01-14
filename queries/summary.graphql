@@ -1,5 +1,5 @@
 {
-  sumario(id: "BOE-S-2017-113") {
+  summary(id: "BOE-S-2017-113") {
     meta {
       publicacion
       fecha

@@ -1,5 +1,5 @@
 {
-  disposicion(id: "BOE-A-2017-13543") {
+  regulation(id: "BOE-A-2017-13543") {
     meta {
       publicacion {
         codigo

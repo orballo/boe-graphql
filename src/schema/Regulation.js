@@ -21,8 +21,8 @@ const Rango = new GraphQLObjectType({
   },
 });
 
-const DepartamentoDisposicion = new GraphQLObjectType({
-  name: "DepartamentoDisposicion",
+const DepartamentoRegulation = new GraphQLObjectType({
+  name: "DepartamentoRegulation",
   fields: {
     nombre: {
       type: new GraphQLNonNull(GraphQLString),
@@ -55,7 +55,7 @@ const Publicacion = new GraphQLObjectType({
       resolve: publicacion => publicacion.subseccion || null,
     },
     departamento: {
-      type: new GraphQLNonNull(DepartamentoDisposicion),
+      type: new GraphQLNonNull(DepartamentoRegulation),
       resolve: publicacion => publicacion.departamento,
     },
     rango: {
@@ -119,8 +119,8 @@ const EstadoConsolidacion = new GraphQLObjectType({
   },
 });
 
-const MetaDisposicion = new GraphQLObjectType({
-  name: "MetaDisposicion",
+const MetaRegulation = new GraphQLObjectType({
+  name: "MetaRegulation",
   fields: {
     publicacion: {
       type: new GraphQLNonNull(Publicacion),
@@ -157,8 +157,8 @@ const MetaDisposicion = new GraphQLObjectType({
   },
 });
 
-const PDFDisposicion = new GraphQLObjectType({
-  name: "PDFDisposicion",
+const PDFRegulation = new GraphQLObjectType({
+  name: "PDFRegulation",
   fields: {
     espanol: {
       type: new GraphQLNonNull(GraphQLString),
@@ -431,11 +431,11 @@ const Contenido = new GraphQLObjectType({
   },
 });
 
-const Disposicion = new GraphQLObjectType({
-  name: "Disposicion",
+const Regulation = new GraphQLObjectType({
+  name: "Regulation",
   fields: {
     meta: {
-      type: new GraphQLNonNull(MetaDisposicion),
+      type: new GraphQLNonNull(MetaRegulation),
       resolve: documento => ({
         publicacion: {
           codigo: documento.metadatos[0].diario[0].$.codigo,
@@ -485,7 +485,7 @@ const Disposicion = new GraphQLObjectType({
       resolve: documento => getUrl(documento.metadatos[0].url_epub[0]) || null,
     },
     pdf: {
-      type: new GraphQLNonNull(PDFDisposicion),
+      type: new GraphQLNonNull(PDFRegulation),
       resolve: documento => ({
         espanol: getUrl(documento.metadatos[0].url_pdf[0]),
         catalan: getUrl(documento.metadatos[0].url_pdf_catalan[0]),
@@ -513,4 +513,4 @@ const Disposicion = new GraphQLObjectType({
   },
 });
 
-module.exports = Disposicion;
+module.exports = Regulation;
